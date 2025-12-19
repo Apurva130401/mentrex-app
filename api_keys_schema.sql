@@ -1,11 +1,14 @@
--- Run this in your Supabase SQL Editor
+-- WARNING: This will delete existing API keys!
+DROP TABLE IF EXISTS api_keys CASCADE;
 
-create table if not exists api_keys (
+create table api_keys (
   id uuid default gen_random_uuid() primary key,
   user_id uuid references auth.users not null,
   name text,
   key_hash text,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+  last_used_at timestamp with time zone,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  CONSTRAINT unique_user_key UNIQUE (user_id)
 );
 
 -- Enable RLS
