@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { LayoutDashboard, CreditCard, Key, LogOut, BookOpen, ExternalLink, Menu } from "lucide-react"
+import { LayoutDashboard, CreditCard, Key, LogOut, BookOpen, ExternalLink, Menu, LifeBuoy } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { supabase } from "@/lib/supabase"
@@ -13,6 +13,7 @@ const sidebarItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
     { href: "/dashboard/billing", icon: CreditCard, label: "Billing" },
     { href: "/dashboard/keys", icon: Key, label: "API Keys" },
+    { href: "/dashboard/support", icon: LifeBuoy, label: "Support" },
 ]
 
 export default function DashboardLayout({
@@ -44,7 +45,10 @@ export default function DashboardLayout({
     const SidebarContent = () => (
         <div className="flex h-full flex-col font-sans">
             <div className="p-8 border-b border-border/40">
-                <h2 className="text-2xl font-bold tracking-tight bg-linear-to-r from-white to-neutral-400 bg-clip-text text-transparent">Mentrex</h2>
+                <div className="flex flex-col">
+                    <h2 className="text-2xl font-bold tracking-tight bg-linear-to-r from-white to-neutral-400 bg-clip-text text-transparent">Mentrex</h2>
+                    <span className="text-[10px] font-medium tracking-widest text-muted-foreground/60 uppercase ml-0.5">by SyncFlo</span>
+                </div>
             </div>
             <nav className="flex-1 p-6 space-y-2">
                 {sidebarItems.map((item) => {
@@ -95,7 +99,10 @@ export default function DashboardLayout({
 
             {/* Mobile Header & Sidebar */}
             <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between border-b border-border/40 bg-background/80 px-6 py-4 backdrop-blur-md md:hidden">
-                <span className="font-bold text-lg">Mentrex</span>
+                <div className="flex flex-col leading-none">
+                    <span className="font-bold text-lg">Mentrex</span>
+                    <span className="text-[10px] text-muted-foreground/60">by SyncFlo</span>
+                </div>
                 <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
                     <SheetTrigger asChild>
                         <Button variant="ghost" size="icon" className="-mr-4">

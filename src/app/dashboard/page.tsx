@@ -109,6 +109,31 @@ export default function DashboardPage() {
                     ))}
                 </div>
             </div>
+
+            {/* Coming Soon Section */}
+            <div className="mt-12 pt-8 border-t border-white/5">
+                <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+                    <span className="flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse" />
+                    Coming Soon
+                </h3>
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    {[
+                        { title: "App Builder", description: "Build full-stack apps with natural language", icon: "🚀" },
+                        { title: "Code Reviews", description: "AI-powered PR analysis and suggestions", icon: "👀" },
+                        { title: "Integrations", description: "Connect with GitHub, GitLab, and Linear", icon: "🔌" },
+                        { title: "Team Collab", description: "Real-time multiplayer coding sessions", icon: "👥" },
+                    ].map((feature, i) => (
+                        <div
+                            key={i}
+                            className="relative p-6 rounded-xl bg-white/2 border border-white/5 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                        >
+                            <div className="text-2xl mb-4">{feature.icon}</div>
+                            <h4 className="text-sm font-semibold text-white mb-1">{feature.title}</h4>
+                            <p className="text-xs text-muted-foreground">{feature.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }
