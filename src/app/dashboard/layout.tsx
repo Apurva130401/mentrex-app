@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { supabase } from "@/lib/supabase"
 import { useEffect, useState } from "react"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
+import { DashboardChatbot } from "@/components/dashboard-chatbot"
 
 const sidebarItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
@@ -122,6 +123,8 @@ export default function DashboardLayout({
                     {children}
                 </div>
             </main>
+            {/* Dashboard Chatbot */}
+            <DashboardChatbot />
         </div>
     )
 }
