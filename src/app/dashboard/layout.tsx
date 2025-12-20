@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { LayoutDashboard, CreditCard, Key, LogOut, BookOpen, ExternalLink, Menu, LifeBuoy } from "lucide-react"
+import { LayoutDashboard, CreditCard, Key, LogOut, BookOpen, ExternalLink, Menu, LifeBuoy, FileCode, Hammer } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { supabase } from "@/lib/supabase"
@@ -12,6 +12,8 @@ import { DashboardChatbot } from "@/components/dashboard-chatbot"
 
 const sidebarItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
+    { href: "/dashboard/app-builder", icon: Hammer, label: "App Builder" },
+    { href: "/dashboard/code-reviews", icon: FileCode, label: "Code Reviews" },
     { href: "/dashboard/billing", icon: CreditCard, label: "Billing" },
     { href: "/dashboard/keys", icon: Key, label: "API Keys" },
     { href: "/dashboard/support", icon: LifeBuoy, label: "Support" },
@@ -65,6 +67,16 @@ export default function DashboardLayout({
                             )}>
                                 <Icon className="h-4 w-4" />
                                 {item.label}
+                                {item.label === "Code Reviews" && (
+                                    <span className="ml-auto text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-1.5 py-0.5 rounded font-mono font-medium tracking-wide">
+                                        BETA
+                                    </span>
+                                )}
+                                {item.label === "App Builder" && (
+                                    <span className="ml-auto text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono font-medium tracking-wide whitespace-nowrap">
+                                        COMING SOON
+                                    </span>
+                                )}
                             </span>
                         </Link>
                     )

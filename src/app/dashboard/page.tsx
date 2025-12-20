@@ -122,16 +122,28 @@ export default function DashboardPage() {
                         { title: "Code Reviews", description: "AI-powered PR analysis and suggestions", icon: "👀" },
                         { title: "Integrations", description: "Connect with GitHub, GitLab, and Linear", icon: "🔌" },
                         { title: "Team Collab", description: "Real-time multiplayer coding sessions", icon: "👥" },
-                    ].map((feature, i) => (
-                        <div
-                            key={i}
-                            className="relative p-6 rounded-xl bg-white/2 border border-white/5 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500"
-                        >
-                            <div className="text-2xl mb-4">{feature.icon}</div>
-                            <h4 className="text-sm font-semibold text-white mb-1">{feature.title}</h4>
-                            <p className="text-xs text-muted-foreground">{feature.description}</p>
-                        </div>
-                    ))}
+                    ].map((feature, i) => {
+                        const isLive = feature.title === "Code Reviews"
+                        return (
+                            <a
+                                key={i}
+                                href={isLive ? "/dashboard/code-reviews" : undefined}
+                                className={cn(
+                                    "relative p-6 rounded-xl bg-white/2 border border-white/5 transition-all duration-500",
+                                    isLive
+                                        ? "opacity-100 hover:bg-white/5 hover:border-white/20"
+                                        : "opacity-60 grayscale hover:grayscale-0 hover:opacity-100 cursor-not-allowed"
+                                )}
+                            >
+                                <div className="text-2xl mb-4">{feature.icon}</div>
+                                <h4 className="text-sm font-semibold text-white mb-1">
+                                    {feature.title}
+                                    {isLive && <span className="ml-2 text-[10px] text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 rounded-full">NEW</span>}
+                                </h4>
+                                <p className="text-xs text-muted-foreground">{feature.description}</p>
+                            </a>
+                        )
+                    })}
                 </div>
             </div>
         </div>
