@@ -65,9 +65,12 @@ export default function LoginPage() {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ type: "spring", delay: 0.2 }}
-                            className="h-16 w-16 rounded-2xl bg-linear-to-tr from-white to-neutral-500 shadow-inner flex items-center justify-center"
                         >
-                            <span className="text-3xl font-bold text-black">M</span>
+                            <img
+                                src="/mentrex-logo.png"
+                                alt="Mentrex Logo"
+                                className="w-16 h-16 rounded-lg shadow-lg shadow-amber-500/20 group-hover:shadow-amber-500/40 transition-all invert"
+                            />
                         </motion.div>
 
                         <div className="space-y-2">
