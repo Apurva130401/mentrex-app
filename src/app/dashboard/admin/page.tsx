@@ -1,23 +1,14 @@
 'use client'
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Bot, Save, Loader2, Lock } from "lucide-react"
 
 export default function AdminPage() {
-    const [isDev, setIsDev] = useState(true)
-
-    useEffect(() => {
-        // Simple client-side check to hide UI in production
-        // For stricter security, this should be done in Middleware, 
-        // but this effectively "hides" it as requested.
-        if (process.env.NODE_ENV === 'production') {
-            setIsDev(false)
-        }
-    }, [])
-
-    if (!isDev) {
+    // Safe check for production environment
+    // Next.js replaces 'process.env.NODE_ENV' with 'production' string at build time
+    if (process.env.NODE_ENV === 'production') {
         return (
             <div className="flex flex-col items-center justify-center h-[60vh] text-center space-y-4">
                 <div className="p-4 rounded-full bg-red-500/10 text-red-500">
