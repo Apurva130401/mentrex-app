@@ -69,7 +69,7 @@ export default function SupportPage() {
                         </div>
                         <h3 className="text-xl font-semibold text-white">GitHub Issues</h3>
                         <p className="text-sm text-neutral-400">
-                            Found a bug? Report it on our GitHub Issues page.
+                            Want to raise an issue? Report it on our GitHub Issues page.
                         </p>
                         <Button
                             className="mt-auto w-full bg-neutral-800 hover:bg-neutral-700 text-white border border-white/10"
@@ -83,7 +83,7 @@ export default function SupportPage() {
 
             <div className="text-center pt-8 border-t border-white/5">
                 <p className="text-sm text-muted-foreground">
-                    Operating hours: Mon-SAT, 9AM - 6PM EST
+                    Operating hours: Mon-Fri, 9AM - 6PM EST
                 </p>
             </div>
         </div>
