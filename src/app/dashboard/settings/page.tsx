@@ -4,11 +4,11 @@ import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Loader2, Trash2, Save } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
-import { Separator } from "@/components/ui/separator"
+// import { useToast } from "@/hooks/use-toast" // Missing
+// import { Separator } from "@/components/ui/separator" // Missing
+// import { Label } from "@/components/ui/label" // Missing
 
 export default function AccountSettingsPage() {
     const [loading, setLoading] = useState(true)
@@ -17,7 +17,7 @@ export default function AccountSettingsPage() {
     const [name, setName] = useState("")
     const [originalName, setOriginalName] = useState("")
     const [email, setEmail] = useState("")
-    const { toast } = useToast()
+    // const { toast } = useToast()
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -72,16 +72,9 @@ export default function AccountSettingsPage() {
             if (error) throw error
 
             setOriginalName(name)
-            toast({
-                title: "Profile updated",
-                description: "Your changes have been saved successfully.",
-            })
+            alert("Profile updated successfully.")
         } catch (error: any) {
-            toast({
-                title: "Error",
-                description: "Failed to update profile. Please try again.",
-                variant: "destructive"
-            })
+            alert("Failed to update profile.")
             console.error("Error updating profile:", error)
         } finally {
             setSaving(false)
@@ -91,11 +84,7 @@ export default function AccountSettingsPage() {
     const handleDeleteAccount = async () => {
         // This usually requires a secure server-side call (Supabase Admin) for full deletion
         // For now, we'll just show a toast as a placeholder or call a client-side method if allowed
-        toast({
-            title: "Account Deletion",
-            description: "Please contact support to delete your account permanently for security reasons, or verify your identity.",
-            variant: "destructive"
-        })
+        alert("Please contact support to delete your account.")
 
         // OR if you want to allow self-deletion via RPC or if policies allow
         /*
@@ -117,7 +106,7 @@ export default function AccountSettingsPage() {
                 <p className="text-muted-foreground mt-2">Manage your account profile and preferences.</p>
             </div>
 
-            <Separator className="bg-white/10" />
+            <div className="h-[1px] w-full bg-white/10" />
 
             <div className="grid gap-8">
                 {/* Profile Information */}
@@ -128,7 +117,7 @@ export default function AccountSettingsPage() {
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email Address</Label>
+                            <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Email Address</label>
                             <Input
                                 id="email"
                                 value={email}
@@ -139,7 +128,7 @@ export default function AccountSettingsPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="name">Display Name</Label>
+                            <label htmlFor="name" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Display Name</label>
                             <Input
                                 id="name"
                                 value={name}
