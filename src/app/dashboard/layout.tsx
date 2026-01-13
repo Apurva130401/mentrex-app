@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { LayoutDashboard, CreditCard, Key, LogOut, BookOpen, ExternalLink, Menu, LifeBuoy, FileCode, Workflow } from "lucide-react"
+import { LayoutDashboard, CreditCard, Key, LogOut, BookOpen, ExternalLink, Menu, LifeBuoy, FileCode, Workflow, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { supabase } from "@/lib/supabase"
@@ -17,6 +17,7 @@ const sidebarItems = [
     { href: "/dashboard/billing", icon: CreditCard, label: "Billing" },
     { href: "/dashboard/keys", icon: Key, label: "API Keys" },
     { href: "/dashboard/support", icon: LifeBuoy, label: "Support" },
+    { href: "/dashboard/settings", icon: Settings, label: "Account Settings" },
 ]
 
 export default function DashboardLayout({
