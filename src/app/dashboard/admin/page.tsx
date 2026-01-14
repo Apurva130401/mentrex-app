@@ -14,8 +14,10 @@ export default function AdminPage() {
                 <div className="p-4 rounded-full bg-red-500/10 text-red-500">
                     <Lock className="h-8 w-8" />
                 </div>
-                <h1 className="text-2xl font-bold">Restricted Area</h1>
-                <p className="text-muted-foreground">This page is only available in local development environment.</p>
+                <h1 className="text-2xl font-bold">Classified Intel</h1>
+                <p className="text-muted-foreground w-full max-w-sm">
+                    Nice try, Netrunner. This terminal is strictly for the Mainframe Operator (Localhost).
+                </p>
             </div>
         )
     }

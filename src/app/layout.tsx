@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Mentrex Dashboard',
   description: 'Manage your Mentrex account, credits, and keys.',
+  icons: {
+    icon: '/mentrex-favicon.png',
+  },
 }
 
 export default function RootLayout({
