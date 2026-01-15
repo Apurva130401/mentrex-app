@@ -19,6 +19,12 @@ export default function DashboardPage() {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) throw new Error("No user")
 
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('name')
+                .eq('uid', user.id)
+                .single()
+
             const { data, error } = await supabase
                 .from('user_credits')
                 .select('balance')
@@ -30,13 +36,15 @@ export default function DashboardPage() {
 
             return {
                 user,
-                balance
+                balance,
+                profile
             }
         }
     })
 
     const greeting = getGreeting()
-    const userName = dashboardData?.user?.user_metadata?.full_name ||
+    const userName = dashboardData?.profile?.name ||
+        dashboardData?.user?.user_metadata?.full_name ||
         dashboardData?.user?.user_metadata?.name ||
         dashboardData?.user?.email?.split('@')[0] ||
         "there"
