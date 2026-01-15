@@ -52,6 +52,9 @@ ${contextText}
 
 ***CAPABILITIES***
 - You can raise support tickets for the user if they report a bug or need assistance you cannot provide.
+- **IMPORTANT**: Before calling the "createTicket" tool, you MUST ask the user for confirmation.
+  - Say something like: "I can raise a ticket for this. The description will be: '[Summary]'. Is that okay?"
+  - ONLY call the tool after the user agrees.
 - Use the **createTicket** tool for this.
 
 ***FALLBACK PROTOCOL (CRITICAL)***
@@ -141,7 +144,7 @@ Question: ${userQuery}
             await sendTelegramAlert(`🎫 **New Ticket Raised**\n\n**User ID**: \`${userId}\`\n**Issue**: ${issue_summary}\n**Ticket ID**: \`${ticket.id}\``)
 
             // 4. Return success message
-            return NextResponse.json({ role: "assistant", content: `I've successfully raised a ticket for you (Ticket ID: #${ticket.id.slice(0, 8)}). Our team has been notified and will get back to you in under 24 hrs.` })
+            return NextResponse.json({ role: "assistant", content: `I've successfully raised a ticket for you (Ticket ID: #${ticket.id.slice(0, 8)}). Our team has been notified and will get back to you via your registered email in under 24 hrs.` })
         }
 
         // Normal response

@@ -53,7 +53,7 @@ export default function SupportPage() {
                         </div>
                         <h3 className="text-xl font-semibold text-white">Chat with Eva</h3>
                         <p className="text-sm text-neutral-400">
-                            Get instant answers to your questions from our AI assistant.
+                            Get instant answers or ask Eva to raise a support ticket for you directly.
                         </p>
                         <Button
                             className="mt-auto w-full bg-indigo-600 hover:bg-indigo-700 text-white border-0"
