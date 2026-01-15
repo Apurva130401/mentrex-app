@@ -2,8 +2,11 @@
 
 import { useState, useRef, useEffect } from "react"
 import { MessageCircle, X, Send, Bot, Loader2 } from "lucide-react"
+import { useChat } from "@/components/chat-context"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { supabase } from "@/lib/supabase"
+import { usePathname } from "next/navigation"
 import ReactMarkdown from "react-markdown"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -13,9 +16,9 @@ interface Message {
 }
 
 export function DashboardChatbot() {
-    const [isOpen, setIsOpen] = useState(false)
+    const { isOpen, toggleChat, closeChat } = useChat()
     const [messages, setMessages] = useState<Message[]>([
-        { role: "assistant", content: "Hello! I'm the Mentrex Assistant. How can I help you today?" }
+        { role: "assistant", content: "Hello! I'm Eva. How can I help you today?" }
     ])
     const [input, setInput] = useState("")
     const [isLoading, setIsLoading] = useState(false)
@@ -29,6 +32,8 @@ export function DashboardChatbot() {
         scrollToBottom()
     }, [messages])
 
+    const pathname = usePathname()
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (!input.trim() || isLoading) return
@@ -39,10 +44,18 @@ export function DashboardChatbot() {
         setIsLoading(true)
 
         try {
+            const { data: { user } } = await supabase.auth.getUser()
+
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: [...messages, userMessage] })
+                body: JSON.stringify({
+                    messages: [...messages, userMessage],
+                    context: {
+                        currentPage: pathname,
+                        userId: user?.id
+                    }
+                })
             })
 
             const data = await response.json()
@@ -56,6 +69,8 @@ export function DashboardChatbot() {
             setIsLoading(false)
         }
     }
+
+    const [isLabelVisible, setIsLabelVisible] = useState(true)
 
     return (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">
@@ -75,14 +90,14 @@ export function DashboardChatbot() {
                                     <Bot className="h-5 w-5" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-white text-sm">Mentrex AI</h3>
+                                    <h3 className="font-semibold text-white text-sm">Eva</h3>
                                     <span className="flex items-center gap-1.5 text-[10px] text-emerald-400">
                                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                                         Online
                                     </span>
                                 </div>
                             </div>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-white" onClick={() => setIsOpen(false)}>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-white" onClick={closeChat}>
                                 <X className="h-4 w-4" />
                             </Button>
                         </div>
@@ -140,7 +155,7 @@ export function DashboardChatbot() {
                                 <input
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
-                                    placeholder="Ask about your dashboard..."
+                                    placeholder="Ask Eva..."
                                     className="w-full bg-neutral-950 border border-white/10 rounded-xl py-3 pl-4 pr-12 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 placeholder:text-muted-foreground"
                                 />
                                 <Button
@@ -157,18 +172,45 @@ export function DashboardChatbot() {
                 )}
             </AnimatePresence>
 
-            <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsOpen(!isOpen)}
-                className="h-14 w-14 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20 flex items-center justify-center transition-colors border border-white/10"
-            >
-                {isOpen ? (
-                    <X className="h-6 w-6" />
-                ) : (
-                    <MessageCircle className="h-6 w-6" />
-                )}
-            </motion.button>
+            <div className="flex items-center gap-4">
+                <AnimatePresence>
+                    {isLabelVisible && !isOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            className="bg-white text-neutral-950 font-medium px-4 py-2 rounded-full shadow-lg flex items-center gap-2"
+                        >
+                            Talk to Eva
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    setIsLabelVisible(false)
+                                }}
+                                className="ml-1 p-0.5 hover:bg-neutral-200 rounded-full transition-colors"
+                            >
+                                <X className="h-3 w-3" />
+                            </button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                        toggleChat()
+                        if (!isOpen) setIsLabelVisible(false)
+                    }}
+                    className="h-14 w-14 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20 flex items-center justify-center transition-colors border border-white/10"
+                >
+                    {isOpen ? (
+                        <X className="h-6 w-6" />
+                    ) : (
+                        <MessageCircle className="h-6 w-6" />
+                    )}
+                </motion.button>
+            </div>
         </div>
     )
 }

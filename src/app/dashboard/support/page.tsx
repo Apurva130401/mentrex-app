@@ -2,8 +2,12 @@
 
 import { Mail, MessageSquare, LifeBuoy } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useChat } from "@/components/chat-context"
+import { TicketList } from "@/components/ticket-list"
 
 export default function SupportPage() {
+    const { openChat } = useChat()
+
     return (
         <div className="max-w-4xl mx-auto py-8 space-y-12">
             <div className="space-y-4 text-center">
@@ -40,6 +44,26 @@ export default function SupportPage() {
                     </div>
                 </div>
 
+                {/* Chat with Eva */}
+                <div className="relative group overflow-hidden rounded-2xl bg-neutral-900 border border-white/5 p-6 transition-all hover:border-white/10 hover:bg-neutral-900/50">
+                    <div className="absolute inset-0 bg-linear-to-br from-indigo-500/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                    <div className="relative z-10 flex flex-col items-center text-center space-y-4">
+                        <div className="p-3 rounded-lg bg-indigo-500/10 text-indigo-400">
+                            <MessageSquare className="h-6 w-6" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-white">Chat with Eva</h3>
+                        <p className="text-sm text-neutral-400">
+                            Get instant answers to your questions from our AI assistant.
+                        </p>
+                        <Button
+                            className="mt-auto w-full bg-indigo-600 hover:bg-indigo-700 text-white border-0"
+                            onClick={openChat}
+                        >
+                            Open Chat
+                        </Button>
+                    </div>
+                </div>
+
                 {/* Discord Community */}
                 <div className="relative group overflow-hidden rounded-2xl bg-neutral-900 border border-white/5 p-6 transition-all hover:border-white/10 hover:bg-neutral-900/50">
                     <div className="absolute inset-0 bg-linear-to-br from-indigo-500/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
@@ -52,7 +76,7 @@ export default function SupportPage() {
                             Join our Discord to chat with other developers and the team.
                         </p>
                         <Button
-                            className="mt-auto w-full bg-indigo-600 hover:bg-indigo-700 text-white border-0"
+                            className="mt-auto w-full bg-neutral-800 hover:bg-neutral-700 text-white border border-white/10"
                             onClick={() => window.open("https://discord.gg/yq5sUumr", "_blank")}
                         >
                             Join Discord
@@ -80,6 +104,8 @@ export default function SupportPage() {
                     </div>
                 </div>
             </div>
+
+            <TicketList />
 
             <div className="text-center pt-8 border-t border-white/5">
                 <p className="text-sm text-muted-foreground">

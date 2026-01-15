@@ -1,85 +1,73 @@
 'use client'
 
-import { useQuery } from "@tanstack/react-query"
-import { supabase } from "@/lib/supabase"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
-
-interface Payment {
-    id: string
-    created_at: string
-    amount_cents: number
-    credits: number
-}
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Key, Info, ShieldCheck } from "lucide-react"
 
 export default function BillingPage() {
-    const { data: payments, isLoading } = useQuery<Payment[]>({
-        queryKey: ['payments'],
-        queryFn: async () => {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return []
-
-            const { data } = await supabase
-                .from('payment_history')
-                .select('*')
-                .eq('user_id', user.id)
-                .order('created_at', { ascending: false })
-            return (data as Payment[]) || []
-        }
-    })
-
     return (
-        <div className="space-y-6">
-            <h1 className="text-3xl font-bold tracking-tight">Billing & Credits</h1>
-
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {/* Top Up Options */}
-                {[10, 50, 100].map((amount) => (
-                    <Card key={amount}>
-                        <CardHeader>
-                            <CardTitle>${amount}</CardTitle>
-                            <CardDescription>Add {amount} credits to your account</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <Button className="w-full">Purchase</Button>
-                        </CardContent>
-                    </Card>
-                ))}
+        <div className="space-y-8 max-w-5xl mx-auto animate-in fade-in duration-700">
+            <div className="flex flex-col gap-2">
+                <h1 className="text-3xl font-semibold tracking-tight text-white">Billing & Usage</h1>
+                <p className="text-neutral-400">Manage your subscription and credits.</p>
             </div>
 
-            <div className="space-y-4">
-                <h2 className="text-xl font-semibold">Payment History</h2>
-                <Card>
-                    <CardContent className="p-0">
-                        {isLoading ? (
-                            <div className="p-8 flex justify-center"><Loader2 className="animate-spin" /></div>
-                        ) : payments?.length === 0 ? (
-                            <div className="p-8 text-center text-muted-foreground">No payment history found</div>
-                        ) : (
-                            <div className="relative w-full overflow-auto">
-                                <table className="w-full caption-bottom text-sm text-left">
-                                    <thead className="[&_tr]:border-b">
-                                        <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                                            <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Date</th>
-                                            <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Amount</th>
-                                            <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Credits</th>
-                                            <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="[&_tr:last-child]:border-0">
-                                        {payments?.map((payment) => (
-                                            <tr key={payment.id} className="border-b transition-colors hover:bg-muted/50">
-                                                <td className="p-4 align-middle">{new Date(payment.created_at).toLocaleDateString()}</td>
-                                                <td className="p-4 align-middle">${(payment.amount_cents / 100).toFixed(2)}</td>
-                                                <td className="p-4 align-middle">{payment.credits}</td>
-                                                <td className="p-4 align-middle">Paid</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+            <div className="grid gap-6">
+                <Card className="bg-neutral-900 border border-white/10 shadow-2xl overflow-hidden relative group">
+                    <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                    <CardHeader className="relative z-10 pb-6 border-b border-white/5 bg-white/5">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+
+                                <div>
+                                    <CardTitle className="text-xl font-medium text-white mb-1">Mentrex Free Tier</CardTitle>
+                                    <p className="text-sm text-neutral-400 font-medium">Early Access Program</p>
+                                </div>
                             </div>
-                        )}
+                            <div className="flex items-center gap-2">
+                                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wider">
+                                    Active
+                                </span>
+                            </div>
+                        </div>
+                    </CardHeader>
+
+                    <CardContent className="relative z-10 p-8 space-y-8">
+                        <div className="space-y-4">
+                            <p className="text-neutral-300 text-base leading-relaxed max-w-3xl">
+                                You are currently using the public beta version of Mentrex. This tier provides complete access to all platform features without any subscription fees.
+                            </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="p-6 rounded-2xl bg-neutral-950 border border-white/5 hover:border-white/10 transition-colors">
+                                <div className="flex items-start gap-4">
+                                    <div className="p-2 rounded-lg bg-neutral-900 text-white border border-white/10">
+                                        <Key className="h-5 w-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-medium text-white mb-2">Bring Your Own Keys</h3>
+                                        <p className="text-sm text-neutral-400 leading-relaxed">
+                                            Usage is controlled entirely by you. Simply plug in your API keys for the models you wish to use. We do not charge for model usage.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-6 rounded-2xl bg-neutral-950 border border-white/5 hover:border-white/10 transition-colors">
+                                <div className="flex items-start gap-4">
+                                    <div className="p-2 rounded-lg bg-neutral-900 text-white border border-white/10">
+                                        <ShieldCheck className="h-5 w-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-medium text-white mb-2">Future Billing</h3>
+                                        <p className="text-sm text-neutral-400 leading-relaxed">
+                                            Native billing features, including credit purchases and usage analytics, will be available in upcoming releases.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

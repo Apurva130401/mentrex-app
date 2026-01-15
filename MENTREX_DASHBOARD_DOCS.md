@@ -61,3 +61,5 @@ The Mentrex Dashboard is a comprehensive command center for AI-powered developme
 *   **"How do I delete my account?"**: Go to `/dashboard/settings` -> Danger Zone. Currently, you need to contact support.
 *   **"Where can I report a bug?"**: Go to `/dashboard/support` and click the GitHub Issues card.
 *   **"Why is my workflow not running?"**: Check if it is set to "Active" in `/dashboard/workflows`. Draft workflows do not execute automatically.
+*   **"Where can I view the detailed documentation?"**: You can read the full documentation at https://docs.mentrex.shop
+*   **"Where can I see the latest updates?"**: View the changelogs at https://changelog.mentrex.shop
